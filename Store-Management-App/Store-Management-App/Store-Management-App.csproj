@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account\AccountProtected.cs" />
+    <Compile Include="Account\SafeAccountProxy.cs" />
+    <Compile Include="Account\IAccount.cs" />
     <Compile Include="Model\EUserType.cs" />
     <Compile Include="Model\Product.cs" />
     <Compile Include="Model\User.cs" />
