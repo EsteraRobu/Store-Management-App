@@ -1,20 +1,16 @@
-﻿using Store_Management_App.Model;
-using System;
+﻿using Store_Management_App.Factory;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Store_Management_App.Repository
-{
+namespace Store_Management_App.Repository {
     class ProductRepository
     {
         private List<Product> products = new List<Product>
         {
-            new Product(1, "Product1", 1200, 10),
-            new Product(2, "Product2", 1200, 10),
-            new Product(3, "Product3", 1200, 10),
-            new Product(4, "Product4", 1200, 10)
+            //new MonitorsFactory().GetProduct("Product1", 1200, 10, new HardwereDecorator(provider)),
+            //new Product(2, "Product2", 1200, 10),
+            //new Product(3, "Product3", 1200, 10),
+            //new Product(4, "Product4", 1200, 10)
         };
 
 

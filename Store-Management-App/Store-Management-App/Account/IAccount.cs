@@ -1,4 +1,5 @@
-﻿using Store_Management_App.Model;
+﻿using Store_Management_App.Factory;
+using Store_Management_App.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

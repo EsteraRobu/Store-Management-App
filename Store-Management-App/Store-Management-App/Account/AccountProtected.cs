@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Store_Management_App.Factory;
 using Store_Management_App.Model;
 
 namespace Store_Management_App.Account
