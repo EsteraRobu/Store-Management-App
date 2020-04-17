@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Store_Management_App.Decorators
 {
-    class SoftwereDecorator : ProviderDecorator
+    class SoftwareDecorator : ProviderDecorator
     {
-        public SoftwereDecorator(IProvider decoratedProvider) : base(decoratedProvider)
+        public SoftwareDecorator(IProvider decoratedProvider) : base(decoratedProvider)
         {
-            decoratedProvider.ProviderType = ETypeProvider.SOFTWERE;
+            decoratedProvider.ProviderType = ETypeProvider.SOFTWARE;
             SetTransportationPrice();
         }
 

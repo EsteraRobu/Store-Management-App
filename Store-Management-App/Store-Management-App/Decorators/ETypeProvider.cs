@@ -8,8 +8,9 @@ namespace Store_Management_App.Decorators
 {
    public enum ETypeProvider
     {
-        HARDWERE,
-        SOFTWERE,
-        HARD_AND_SOFT
+        HARDWARE,
+        SOFTWARE,
+        HARD_AND_SOFT,
+        SIMPLE
     }
 }

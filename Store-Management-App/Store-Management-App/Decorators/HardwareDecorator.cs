@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Store_Management_App.Decorators
 {
-    class HardwereDecorator : ProviderDecorator
+    class HardwareDecorator : ProviderDecorator
     {
-        public HardwereDecorator(IProvider decoratedProvider) : base(decoratedProvider)
+        public HardwareDecorator(IProvider decoratedProvider) : base(decoratedProvider)
         {
-            decoratedProvider.ProviderType = ETypeProvider.HARDWERE;
+            decoratedProvider.ProviderType = ETypeProvider.HARDWARE;
             SetTransportationPrice();
         }
 
