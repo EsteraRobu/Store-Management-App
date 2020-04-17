@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Store_Management_App.Model
+namespace Store_Management_App.Decorators
 {
     class HardwereDecorator : ProviderDecorator
     {
