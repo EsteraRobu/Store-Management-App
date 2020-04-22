@@ -48,10 +48,11 @@
     <Compile Include="Account\IAccount.cs" />
     <Compile Include="Decorators\ETypeProvider.cs" />
     <Compile Include="Decorators\HardAndSoftDecorator.cs" />
-    <Compile Include="Decorators\HardwereDecorator.cs" />
+    <Compile Include="Decorators\HardwareDecorator.cs" />
     <Compile Include="Decorators\IProvider.cs" />
     <Compile Include="Decorators\ProviderDecorator.cs" />
-    <Compile Include="Decorators\SoftwereDecorator.cs" />
+    <Compile Include="Decorators\SimpleProviderDecorator.cs" />
+    <Compile Include="Decorators\SoftwareDecorator.cs" />
     <Compile Include="Factory\EProductType.cs" />
     <Compile Include="Factory\Hardware\Hardware.cs" />
     <Compile Include="Factory\Hardware\MonitorsFactory.cs" />

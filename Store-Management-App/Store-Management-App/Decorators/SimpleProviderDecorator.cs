@@ -11,7 +11,7 @@ namespace Store_Management_App.Decorators
         public string Name { get; set; }
         public double TransportationPrice { get; set; }
         public ETypeProvider ProviderType { get; set; }
-        protected SimpleProviderDecorator()
+        public SimpleProviderDecorator()
         {
             this.ProviderType = ETypeProvider.SIMPLE;
             SetTransportationPrice();

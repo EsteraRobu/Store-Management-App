@@ -14,7 +14,7 @@ namespace Store_Management_App.Decorators
         public double TransportationPrice { get; set; }
         public ETypeProvider ProviderType { get; set; }
 
-        protected ProviderDecorator(IProvider decoratedProvider)
+        public ProviderDecorator(IProvider decoratedProvider)
         {
             this.decoratedProvider = decoratedProvider;
         }
