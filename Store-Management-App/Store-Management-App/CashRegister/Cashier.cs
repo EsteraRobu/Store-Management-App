@@ -67,7 +67,7 @@ namespace Store_Management_App.CashRegister
         {
             double paperMoney = Math.Truncate(changeExpected);
             double coin = changeExpected - Math.Truncate(changeExpected);
-            CashOut(coin, EMoneyType.Card);
+            CashOut(coin, EMoneyType.Coin);
             CashOut(paperMoney, EMoneyType.Paper);
             
         }
