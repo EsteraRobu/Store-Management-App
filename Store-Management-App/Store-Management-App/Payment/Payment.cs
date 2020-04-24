@@ -1,4 +1,5 @@
 ﻿using Store_Management_App.Account;
+using Store_Management_App.CashRegister;
 using Store_Management_App.Factory;
 using Store_Management_App.Repository;
 using System;
@@ -19,7 +20,7 @@ namespace Store_Management_App.Payment {
         public double ValueReceived {
             get => valueReceived;
             set {
-                if (value <= 0.0f) throw new ArgumentOutOfRangeException("Price must be assigned a value bigger than 0.", nameof(value));
+                if (value < 0.0f) throw new ArgumentOutOfRangeException("Price must be assigned a value bigger than 0.", nameof(value));
                 valueReceived = value;
             }
         }
@@ -27,14 +28,14 @@ namespace Store_Management_App.Payment {
         public double ValueToPay {
             get => valueToPay;
             set {
-                if (value <= 0.0f) throw new ArgumentOutOfRangeException("Price must be assigned a value bigger than 0.", nameof(value));
+                if (value < 0.0f) throw new ArgumentOutOfRangeException("Price must be assigned a value bigger than 0.", nameof(value));
                 valueToPay = value;
             }
         }
 
         public Payment(double valueReceived, double valueToPay) {
-            if (valueReceived <= 0) throw new ArgumentOutOfRangeException(nameof(valueReceived));
-            if (valueToPay <= 0) throw new ArgumentOutOfRangeException(nameof(valueToPay));
+            if (valueReceived < 0) throw new ArgumentOutOfRangeException(nameof(valueReceived));
+            if (valueToPay < 0) throw new ArgumentOutOfRangeException(nameof(valueToPay));
 
             ValueReceived = valueReceived;
             ValueToPay = valueToPay;
@@ -46,10 +47,10 @@ namespace Store_Management_App.Payment {
             }
         }
 
-        public void UserPayment(SafeAccountProxy account) {
+        public void UserPayment(SafeAccountProxy account, Cashier cashier) {
             PaymentTerminal paymentTerminal = new PaymentTerminal(this);
             account.Pay(paymentTerminal);
-            paymentTerminal.Pay();
+            paymentTerminal.Pay(cashier);
 
         }
 
@@ -57,16 +58,18 @@ namespace Store_Management_App.Payment {
             return ValueReceived <= ValueToPay;
         }
 
-        public double Pay() {
-            if (ValueReceived > ValueToPay)
-                return GetChange();
-            if (ValueReceived == ValueToPay)
-                return 0;
-            if (GetChange() == 0)
-                Console.WriteLine("Successful transaction.");
+        public double Pay(Cashier cashier) {
+            if (ValueReceived >= ValueToPay) {
+                var change = GetChange();
+                cashier.RemoveChangeFromCashRegister(change);
+                return change;
+            }
             return 0;
         }
 
-        public virtual double GetChange() => 0;
+        public double GetChange() {
+            Console.WriteLine("Successful transaction.");
+            return ValueReceived - ValueToPay;
+        }
     }
 }

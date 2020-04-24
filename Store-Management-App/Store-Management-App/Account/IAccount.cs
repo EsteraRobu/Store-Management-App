@@ -11,8 +11,8 @@ namespace Store_Management_App.Account
 {
     public interface IAccount
     {
-        void Buy(Product product);
+        void Buy(string name, int quantity);
         void Pay(PaymentTerminal paymentTerminal);
-        void DisplayTotalPrice();
+        double DisplayTotalPrice();
     }
 }

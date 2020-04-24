@@ -29,10 +29,10 @@ namespace Store_Management_App.Account
             return false;
         }
 
-        public void Buy(Product product)
+        public void Buy(string productName, int quantity)
         {
             if (RealSubject is AccountProtected)
-                RealSubject.Buy(product);
+                RealSubject.Buy(productName, quantity);
         }
 
         public void Pay(PaymentTerminal paymentTerminal)
@@ -41,11 +41,12 @@ namespace Store_Management_App.Account
                 RealSubject.Pay(paymentTerminal);
         }
 
-        public void DisplayTotalPrice()
+        public double DisplayTotalPrice()
         {
             if (RealSubject is AccountProtected)
-                RealSubject.DisplayTotalPrice();
-        }
+                return RealSubject.DisplayTotalPrice();
 
+            return 0;
+        }
     }
 }

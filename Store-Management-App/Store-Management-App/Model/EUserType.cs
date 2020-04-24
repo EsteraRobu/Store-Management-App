@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Store_Management_App.Model
 {
-    enum EUserType
+    public enum EUserType
     {
         ADMIN,
         CLIENT

@@ -68,7 +68,7 @@ namespace Store_Management_App.Repository {
         public void UpdateProductQuantity(string name, int quantity) {
             var product = products.First(prod => prod.Name == name);
             if (quantity > 0) {
-                product.Quantity = quantity;
+                product.Quantity -= quantity;
             }
         }
     }

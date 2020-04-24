@@ -32,7 +32,7 @@ namespace Store_Management_App.Ordering {
         }
 
         public void Run() {
-            ProductRepository.Instance.GetAvailableProducts().ForEach(product => product.ToString());
+            ProductRepository.Instance.GetAvailableProducts().ForEach(product => Console.WriteLine(product.ToString()));
 
             Console.WriteLine("\nPlease enter the name of product: ");
             string name;
@@ -45,7 +45,28 @@ namespace Store_Management_App.Ordering {
             quantity = Convert.ToInt32(Console.ReadLine());
             if (quantity < 0) throw new ArgumentOutOfRangeException("You can`t choose a quantity smaller than 0.", nameof(quantity));
 
+            account.Buy(name, quantity);
+
+            Console.WriteLine("You want something else?");
+            String decision;
+            decision = Console.ReadLine();
+            switch (decision) {
+                case "no":
+                    Payment();
+                    break;
+                case "yes":
+                    Run();
+                    break;
+                default:
+                    Console.WriteLine("Next time please enter yes / no.");
+                    break;
+            }
+        }
+
+        public void Payment() {
             Cashier cashier = new Cashier();
+            payment.ValueReceived = 0;
+            payment.ValueToPay = account.DisplayTotalPrice();
 
             while (payment.VerifyPayment()) {
                 Console.WriteLine("\nPlease enter the option for payment you want: \n" +
@@ -85,9 +106,9 @@ namespace Store_Management_App.Ordering {
                 payment.ValueReceivedMethod(cashier.GetTotalCache());
             }
 
-            payment.UserPayment(account);
+            payment.UserPayment(account, cashier);
 
-            Console.WriteLine("You want something else?");
+            Console.WriteLine("You still want to buy ?");
             String decision;
             decision = Console.ReadLine();
             switch (decision) {
@@ -100,7 +121,6 @@ namespace Store_Management_App.Ordering {
                     Console.WriteLine("Next time please enter yes / no.");
                     break;
             }
-
         }
     }
 }

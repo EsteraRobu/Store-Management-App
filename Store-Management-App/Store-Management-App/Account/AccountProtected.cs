@@ -6,28 +6,33 @@ using System.Threading.Tasks;
 using Store_Management_App.Factory;
 using Store_Management_App.Model;
 using Store_Management_App.Payment;
+using Store_Management_App.Repository;
 
-namespace Store_Management_App.Account
-{
-    public class AccountProtected : IAccount
-    {
+namespace Store_Management_App.Account {
+    public class AccountProtected : IAccount {
         public List<Product> Products { get; set; }
 
-        public AccountProtected()
-        {
+        public AccountProtected() {
             Products = new List<Product>();
         }
 
-        public void Buy(Product product)
-        {
+        public void Buy(string name, int quantity) {
+            Product product = ProductRepository.Instance.GetProduct(name);
+            if (product == null) throw new ArgumentNullException("The product doesn`t exist");
+
+            if (product.Quantity >= quantity) {
+                ProductRepository.Instance.UpdateProductQuantity(name, quantity);
+            } else {
+                Console.Error.Write($"Your quantity is bigger, we just have {product.Quantity} piece of {product.Name} \n");
+            }
+
+            product.Quantity = quantity;
             Products.Add(product);
         }
 
-        public void Pay(PaymentTerminal paymentTerminal)
-        {
+        public void Pay(PaymentTerminal paymentTerminal) {
             Products.Clear();
             PayNotify(paymentTerminal);
-            
         }
 
         public void PayNotify(PaymentTerminal paymentTerminal) {
@@ -39,12 +44,13 @@ namespace Store_Management_App.Account
             Console.WriteLine($"You pay {payment.ValueToPay}");
         }
 
-        public void DisplayTotalPrice()
-        {
+        public double DisplayTotalPrice() {
             double sum = 0;
             foreach (var product in Products)
                 sum += product.Price;
             Console.WriteLine("Total price: " + sum);
+
+            return sum;
         }
     }
 }
