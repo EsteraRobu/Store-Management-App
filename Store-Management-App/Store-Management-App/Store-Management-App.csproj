@@ -46,6 +46,16 @@
     <Compile Include="Account\AccountProtected.cs" />
     <Compile Include="Account\SafeAccountProxy.cs" />
     <Compile Include="Account\IAccount.cs" />
+    <Compile Include="CashRegister\CardMoney.cs" />
+    <Compile Include="CashRegister\Cashier.cs" />
+    <Compile Include="CashRegister\CashRegister.cs" />
+    <Compile Include="CashRegister\CashRegisterCard.cs" />
+    <Compile Include="CashRegister\CashRegisterCoin.cs" />
+    <Compile Include="CashRegister\CashRegisterPaper.cs" />
+    <Compile Include="CashRegister\CoinMoney.cs" />
+    <Compile Include="CashRegister\EMoneyType.cs" />
+    <Compile Include="CashRegister\Money.cs" />
+    <Compile Include="CashRegister\PaperMoney.cs" />
     <Compile Include="Decorators\ETypeProvider.cs" />
     <Compile Include="Decorators\HardAndSoftDecorator.cs" />
     <Compile Include="Decorators\HardwareDecorator.cs" />

@@ -50,6 +50,8 @@ namespace Store_Management_App.CashRegister
             var money = Lookup(value);
             if (money.TotalCacheValue >= value)
                 money.TotalCacheValue -= value;
+            else
+                Console.WriteLine("we do not have cash amound for:" + value);
 
         }
         public double GetTotalCache()
