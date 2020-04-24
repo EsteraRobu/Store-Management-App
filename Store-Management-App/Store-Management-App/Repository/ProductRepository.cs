@@ -2,11 +2,13 @@
 using Store_Management_App.Factory;
 using Store_Management_App.Factory.Hardware;
 using Store_Management_App.Factory.Software;
+using Store_Management_App.Payment;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Store_Management_App.Repository {
-    class ProductRepository {
+    public class ProductRepository {
         private List<Product> products;
 
         private static ProductRepository instance = null;
@@ -51,6 +53,8 @@ namespace Store_Management_App.Repository {
         }
 
         public List<Product> GetProducts() => products;
+
+        public List<Product> GetAvailableProducts() => products.FindAll(product => product.Quantity > 0);
 
         public Product GetProduct(string name) => products.First(product => product.Name == name);
 

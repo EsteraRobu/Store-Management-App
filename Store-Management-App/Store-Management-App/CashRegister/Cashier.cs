@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Store_Management_App.CashRegister
 {
-    public class Cashier
-    {
-        Cashier()
-        {
-            UpdateCashRegister();
-        }
+    public class Cashier 
+    { 
         public CashRegisterCoin cashRegisterCoin = new CashRegisterCoin();
         public CashRegisterCard cashRegisterCard = new CashRegisterCard();
         public CashRegisterPaper cashRegisterPaper = new CashRegisterPaper();
+        public Cashier() {
+            UpdateCashRegister();
+        }
+
         private CashRegister getCashRegister(double value, EMoneyType type)
         {
             switch (type)

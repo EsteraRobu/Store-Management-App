@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Store_Management_App.Ordering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ namespace Store_Management_App
     {
         static void Main(string[] args)
         {
+            Panel panel = new Panel();
         }
     }
 }
