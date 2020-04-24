@@ -61,7 +61,7 @@
     <Compile Include="Decorators\HardwareDecorator.cs" />
     <Compile Include="Decorators\IProvider.cs" />
     <Compile Include="Decorators\ProviderDecorator.cs" />
-    <Compile Include="Decorators\SimpleProviderDecorator.cs" />
+    <Compile Include="Decorators\SimpleProvider.cs" />
     <Compile Include="Decorators\SoftwareDecorator.cs" />
     <Compile Include="Factory\EProductType.cs" />
     <Compile Include="Factory\Hardware\Hardware.cs" />

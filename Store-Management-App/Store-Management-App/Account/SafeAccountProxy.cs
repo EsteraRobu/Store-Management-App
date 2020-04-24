@@ -35,17 +35,16 @@ namespace Store_Management_App.Account
                 RealSubject.Buy(productName, quantity);
         }
 
-        public void Pay(Payment.Payment payment)
+        public void Pay(Payment.Payment payment, List<double> payedMoney, List<double> coinMoney)
         {
             if (RealSubject is AccountProtected)
-                RealSubject.Pay(payment);
+                RealSubject.Pay(payment, payedMoney, coinMoney);
         }
 
-        public double DisplayTotalPrice()
+        public double TotalValueToPay()
         {
             if (RealSubject is AccountProtected)
-                return RealSubject.DisplayTotalPrice();
-
+                return RealSubject.TotalValueToPay();
             return 0;
         }
     }

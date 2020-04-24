@@ -11,8 +11,8 @@ namespace Store_Management_App.Payment {
         private Payment payment;
         public event EventHandler<Payment> PaymentEvent;
 
-        public void Pay() {
-            Console.WriteLine($"Your change is {payment.Pay()}");
+        public void Pay(List<double> payedMoney, List<double> coinMoney) {
+            Console.WriteLine($"Your change is {payment.Pay(payedMoney, coinMoney)}");
             PaymentEvent?.Invoke(this, Payment);
         }
 

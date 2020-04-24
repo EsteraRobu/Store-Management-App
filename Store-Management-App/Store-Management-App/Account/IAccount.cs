@@ -12,7 +12,7 @@ namespace Store_Management_App.Account
     public interface IAccount
     {
         void Buy(string name, int quantity);
-        void Pay(Payment.Payment paymentTerminal);
-        double DisplayTotalPrice();
+        void Pay(Payment.Payment paymentTerminal, List<double> payedMoney, List<double> coinMoney);
+        double TotalValueToPay();
     }
 }

@@ -7,12 +7,30 @@ using System.Threading.Tasks;
 namespace Store_Management_App.CashRegister
 {
     public class Cashier 
-    { 
+    {
+        private static Cashier instance = null;
+        private static readonly object padlock = new object();
+
         public CashRegisterCoin cashRegisterCoin = new CashRegisterCoin();
         public CashRegisterCard cashRegisterCard = new CashRegisterCard();
         public CashRegisterPaper cashRegisterPaper = new CashRegisterPaper();
         public Cashier() {
             UpdateCashRegister();
+        }
+
+        public static Cashier Instance
+        {
+            get
+            {
+                lock (padlock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new Cashier();
+                    }
+                    return instance;
+                }
+            }
         }
 
         private CashRegister getCashRegister(double value, EMoneyType type)
@@ -59,18 +77,22 @@ namespace Store_Management_App.CashRegister
         {
             getCashRegister(value, type).CashOut(value);
         }
+
         public double GetTotalCache()
         {
             return cashRegisterCard.GetTotalCache() + cashRegisterPaper.GetTotalCache() + cashRegisterCoin.GetTotalCache();
         }
-        public Boolean checkIfPaperCashExist(double x) {
-            return cashRegisterPaper.GetTotalCache() > x ? true : false;
+
+        public Boolean checkIfPaperCashExist(double money) {
+            return cashRegisterPaper.GetTotalCache() > money ? true : false;
         }
-        public Boolean checkIfCoinCashExist(double x)
+
+        public Boolean checkIfCoinCashExist(double money)
         {
-            return cashRegisterCoin.GetTotalCache() > x ? true : false;
+            return cashRegisterCoin.GetTotalCache() > money ? true : false;
         }
-        public void RemoveChangeFromCashRegister(double  changeExpected)
+
+        public void RemoveChangeFromCashRegister(double changeExpected)
         {
             double paperMoney = Math.Truncate(changeExpected);
             if (checkIfPaperCashExist(paperMoney)) {
@@ -83,49 +105,46 @@ namespace Store_Management_App.CashRegister
                             CashOut(1, EMoneyType.Paper);
                             paperMoney--;
                         }
+                        break;
                     }
                     if (paperMoney >= 5 && paperMoney < 10)
                     {
                         CashOut(5, EMoneyType.Paper);
                         paperMoney -= 5;
                     }
-                    if (paperMoney == 10)
+                    if (paperMoney >= 10 && paperMoney < 50)
                     {
-                        CashOut(10, EMoneyType.Paper);
-                        paperMoney -= 10;
-                    }
-
-                    if (paperMoney < 50)
-                    {
-                        while (paperMoney > 10)
+                        while (paperMoney >= 10)
+                        {
                             CashOut(10, EMoneyType.Paper);
-                        paperMoney -= 10;
+                            paperMoney -= 10;
+                        }
                     }
                     if (paperMoney >= 50 && paperMoney < 100)
                     {
                         CashOut(50, EMoneyType.Paper);
                         paperMoney -= 50;
                     }
-                    if (paperMoney == 100)
-                    {
-                        CashOut(100, EMoneyType.Paper);
-                        paperMoney -= 100;
-                    }
-                    if (paperMoney < 100)
-                    {
-                        while (paperMoney > 100)
-                            CashOut(50, EMoneyType.Paper);
-                        paperMoney -= 50;
-                    }
                     if (paperMoney >= 100 && paperMoney < 200)
                     {
-                        CashOut(100, EMoneyType.Paper);
-                        paperMoney -= 100;
+                        while (paperMoney >= 100)
+                        {
+                            CashOut(100, EMoneyType.Paper);
+                            paperMoney -= 100;
+                        }
                     }
                     if (paperMoney == 200)
                     {
                         CashOut(200, EMoneyType.Paper);
                         paperMoney -= 200;
+                    }
+                    if (paperMoney > 200 && paperMoney < 500)
+                    {
+                        while (paperMoney > 200)
+                        {
+                            CashOut(100, EMoneyType.Paper);
+                            paperMoney -= 200;
+                        }
                     }
                 }
 

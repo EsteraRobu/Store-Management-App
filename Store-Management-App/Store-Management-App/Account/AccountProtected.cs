@@ -21,9 +21,12 @@ namespace Store_Management_App.Account {
             Product product = ProductRepository.Instance.GetProduct(name);
             if (product == null) throw new ArgumentNullException("The product doesn`t exist");
 
-            if (product.Quantity >= quantity) {
+            if (product.Quantity >= quantity)
+            {
                 ProductRepository.Instance.UpdateProductQuantity(name, quantity);
-            } else {
+            }
+            else
+            {
                 Console.Error.Write($"Your quantity is bigger, we just have {product.Quantity} piece of {product.Name} \n");
             }
 
@@ -31,12 +34,12 @@ namespace Store_Management_App.Account {
             Products.Add(product);
         }
 
-        public void Pay(Payment.Payment payment) {
+        public void Pay(Payment.Payment payment, List<double> payedMoney, List<double> coinMoney) {
             Products.Clear();
 
             PaymentTerminal paymentTerminal = new PaymentTerminal(payment);
             PayNotify(paymentTerminal);
-            paymentTerminal.Pay();
+            paymentTerminal.Pay(payedMoney, coinMoney);
         }
 
         public void PayNotify(PaymentTerminal paymentTerminal) {
@@ -48,10 +51,13 @@ namespace Store_Management_App.Account {
             Console.WriteLine($"You pay {payment.ValueToPay}");
         }
 
-        public double DisplayTotalPrice() {
+        public double TotalValueToPay() {
             double sum = 0;
             foreach (var product in Products)
-                sum += product.Price;
+            {
+                sum += (product.Quantity * product.Price);
+            }
+
             Console.WriteLine("Total price: " + sum);
 
             return sum;

@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace Store_Management_App.Decorators
 {
-    class SimpleProviderDecorator:IProvider
+    class SimpleProvider:IProvider
     {
         public string Name { get; set; }
         public double TransportationPrice { get; set; }
         public ETypeProvider ProviderType { get; set; }
-        public SimpleProviderDecorator()
+        public SimpleProvider(string name)
         {
-            this.ProviderType = ETypeProvider.SIMPLE;
+            Name = name;
+            ProviderType = ETypeProvider.SIMPLE;
             SetTransportationPrice();
         }
         public void Assemble(string name)

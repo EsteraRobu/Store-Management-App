@@ -48,12 +48,22 @@ namespace Store_Management_App.Payment {
         }
 
         public bool VerifyPayment() {
-            return ValueReceived <= ValueToPay;
+            return ValueReceived < ValueToPay;
         }
 
-        public double Pay() {
+        public double Pay(List<double> payedMoney, List<double> coinMoney) {
             if (ValueReceived >= ValueToPay) {
+                Cashier cashier = Cashier.Instance;
+                foreach(var value in payedMoney)
+                {
+                    cashier.CashIn(value, EMoneyType.Paper);
+                }
+                foreach (var value in coinMoney)
+                {
+                    cashier.CashIn(value, EMoneyType.Coin);
+                }
                 var change = GetChange();
+                cashier.RemoveChangeFromCashRegister(change);
                 return change;
             }
             return 0;

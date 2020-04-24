@@ -17,24 +17,54 @@ namespace Store_Management_App.Ordering {
             payment = new Payment.Payment();
             account = new SafeAccountProxy();
 
-            Console.WriteLine("Type the username:");
-            var username = Console.ReadLine();
+            while(true)
+            {
+                Console.Write("Username:");
+                var username = Console.ReadLine();
 
-            Console.WriteLine("Type the password:");
-            var password = Console.ReadLine();
+                Console.Write("Password:");
+                var password = Console.ReadLine();
 
-            if (account.Activate(username, password)) {
-                Run();
-            } else {
-                Console.WriteLine("Wrong password or username");
-
+                if (account.Activate(username, password))
+                {
+                    VisualizeProducts();
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Wrong password or username! Please try again.");
+                }
             }
+            
         }
 
-        public void Run() {
+        public void VisualizeProducts()
+        {
             ProductRepository.Instance.GetAvailableProducts().ForEach(product => Console.WriteLine(product.ToString()));
 
-            Console.WriteLine("\nPlease enter the name of product: ");
+            Console.WriteLine("\nDo you want to buy something?(yes/no)");
+            String decision;
+            decision = Console.ReadLine();
+            switch (decision)
+            {
+                case "no":
+                    Console.WriteLine("Thank you for your time. Have a nice day!");
+                    break;
+                case "yes":
+                    Run();
+                    break;
+                default:
+                    Console.WriteLine("Next time please enter yes/no.");
+                    break;
+            }
+
+        }
+
+        public void Run()
+        {
+            ProductRepository.Instance.GetAvailableProducts().ForEach(product => Console.WriteLine(product.ToString()));
+
+            Console.WriteLine("\nPlease enter the name product: ");
             string name;
             int quantity;
 
@@ -47,7 +77,7 @@ namespace Store_Management_App.Ordering {
 
             account.Buy(name, quantity);
 
-            Console.WriteLine("You want something else?");
+            Console.WriteLine("You want something else?(yes/no)");
             String decision;
             decision = Console.ReadLine();
             switch (decision) {
@@ -58,67 +88,70 @@ namespace Store_Management_App.Ordering {
                     Run();
                     break;
                 default:
-                    Console.WriteLine("Next time please enter yes / no.");
+                    Console.WriteLine("Next time please enter yes/no.");
                     break;
             }
         }
 
         public void Payment() {
-            Cashier cashier = new Cashier();
+            Cashier cashier = Cashier.Instance;
             payment.ValueReceived = 0;
-            payment.ValueToPay = account.DisplayTotalPrice();
+            payment.ValueToPay = account.TotalValueToPay();
+            List<double> paperMoney = new List<double>();
+            List<double> coinMoney = new List<double>();
+            double payedValue = 0;
 
             while (payment.VerifyPayment()) {
+                Console.WriteLine("You have to pay: " + (payment.ValueToPay - payedValue));
                 Console.WriteLine("\nPlease enter the option for payment you want: \n" +
-                              "1. Cash\n " +
-                              "2. Card\n " +
-                              "3. Coin\n ");
+                              "1. Paper\n" +
+                              "2. Coin\n" +
+                              "3. Card\n");
                 int userInput;
                 userInput = Convert.ToInt32(Console.ReadLine());
 
                 switch (userInput) {
                     case 1: {
-                            Console.WriteLine("Please enter the cash: ");
-                            double cash = Convert.ToInt32(Console.ReadLine());
-                            cashier.CashIn(cash, EMoneyType.Paper);
-
+                            Console.WriteLine("Please enter the banknote(1, 5, 10, 50, 100, 200, 500): ");
+                            double paper = Convert.ToInt32(Console.ReadLine());
+                            paperMoney.Add(paper);
+                            payedValue += paper;
                         }
                         break;
                     case 2: {
-                            Console.WriteLine("Please enter the coins: ");
+                            Console.WriteLine("Please enter the coins(0.01, 0.05, 0.1, 0.5: ");
                             double coin = Convert.ToInt32(Console.ReadLine());
-                            cashier.CashIn(coin, EMoneyType.Coin);
-
+                            coinMoney.Add(coin);
+                            payedValue += coin;
                         }
                         break;
 
                     case 3: {
-                            Console.WriteLine("Please enter cash from card: ");
-                            double cash = Convert.ToInt32(Console.ReadLine());
-                            cashier.CashIn(cash, EMoneyType.Card);
-
+                            Console.WriteLine("Please enter amount from card: ");
+                            double card = Convert.ToInt32(Console.ReadLine());
+                            payedValue += card;
                         }
                         break;
                     default:
                         break;
                 }
-
-                payment.ValueReceivedMethod(cashier.GetTotalCache());
+                payment.ValueReceivedMethod(payedValue);
             }
 
-            account.Pay(payment);
+            account.Pay(payment, paperMoney, coinMoney);
 
-            Console.WriteLine("You still want to buy ?");
+            Console.WriteLine("You still want to buy?(yes/no)");
             String decision;
             decision = Console.ReadLine();
             switch (decision) {
                 case "no":
+                    Console.WriteLine("Thank you for your order. Have a nice day!");
                     break;
                 case "yes":
                     Run();
                     break;
                 default:
-                    Console.WriteLine("Next time please enter yes / no.");
+                    Console.WriteLine("Next time please enter yes/no.");
                     break;
             }
         }

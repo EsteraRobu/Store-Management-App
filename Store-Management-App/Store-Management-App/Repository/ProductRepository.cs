@@ -15,7 +15,7 @@ namespace Store_Management_App.Repository {
         private static readonly object padlock = new object();
 
         private ProductRepository() {
-            IProvider simpleProvider = new SimpleProviderDecorator();
+            IProvider simpleProvider = new SimpleProvider("PC Garage");
 
             products = new List<Product>{
                 new MonitorsFactory().GetProduct("Dell", 3000, 10, new HardwareDecorator(simpleProvider)),
@@ -56,17 +56,28 @@ namespace Store_Management_App.Repository {
 
         public List<Product> GetAvailableProducts() => products.FindAll(product => product.Quantity > 0);
 
-        public Product GetProduct(string name) => products.First(product => product.Name == name);
+        public Product GetProduct(string name)
+        {
+            try
+            {
+                return products.First(product => product.Name.ToUpper().Equals(name.ToUpper()));
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine("The product doesn`t exist. Please insert a correct name product.");
+                return null;
+            }
+        }
 
         public void UpdateProductPrice(string name, double price) {
-            var product = products.First(prod => prod.Name == name);
+            var product = products.First(prod => prod.Name.ToUpper() == name.ToUpper());
             if (price > 0) {
                 product.Price = price;
             }
         }
 
         public void UpdateProductQuantity(string name, int quantity) {
-            var product = products.First(prod => prod.Name == name);
+            var product = products.First(prod => prod.Name.ToUpper() == name.ToUpper());
             if (quantity > 0) {
                 product.Quantity -= quantity;
             }

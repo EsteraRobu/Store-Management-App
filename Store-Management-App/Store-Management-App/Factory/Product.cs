@@ -22,7 +22,7 @@ namespace Store_Management_App.Factory {
         }
 
         public override string ToString() {
-            return $"Product {Name}, with price {Price}, quantity {Quantity}, provider {Provider.Name} and type {Type()}"; 
+            return $"{Name}, price: {Price}, quantity: {Quantity}, provider: {Provider.Name}, type: {Type()}"; 
         }
     }
 }
