@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Store_Management_App.Factory;
 using Store_Management_App.Model;
+using Store_Management_App.Payment;
 
 namespace Store_Management_App.Account
 {
-    class AccountProtected : IAccount
+    public class AccountProtected : IAccount
     {
         public List<Product> Products { get; set; }
 
@@ -22,10 +23,20 @@ namespace Store_Management_App.Account
             Products.Add(product);
         }
 
-        public void Pay()
+        public void Pay(PaymentTerminal paymentTerminal)
         {
             Products.Clear();
-            //Add money for user and recalculate them
+            PayNotify(paymentTerminal);
+            
+        }
+
+        public void PayNotify(PaymentTerminal paymentTerminal) {
+            if (paymentTerminal == null) throw new ArgumentNullException(nameof(paymentTerminal));
+            paymentTerminal.PaymentEvent += OnPayment;
+        }
+
+        private void OnPayment(object paymentTerminal, Payment.Payment payment) {
+            Console.WriteLine($"You pay {payment.ValueToPay}");
         }
 
         public void DisplayTotalPrice()

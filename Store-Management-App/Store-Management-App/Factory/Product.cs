@@ -1,7 +1,7 @@
 ﻿using Store_Management_App.Decorators;
 
 namespace Store_Management_App.Factory {
-    abstract class Product {
+    public abstract class Product {
         public int Id { get; set; }
         public string Name { get; set; }
         public double Price { get; set; } = 0.0;
@@ -22,7 +22,7 @@ namespace Store_Management_App.Factory {
         }
 
         public override string ToString() {
-            return $"Product {Name}, with price {Price}, quantity {Quantity} and provider {Provider.Name}"; 
+            return $"Product {Name}, with price {Price}, quantity {Quantity}, provider {Provider.Name} and type {Type()}"; 
         }
     }
 }

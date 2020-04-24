@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Store_Management_App.Repository
 {
-    class UserRepository
+    public class UserRepository
     {
         private List<User> users = new List<User>
         {
@@ -38,6 +38,10 @@ namespace Store_Management_App.Repository
                     return instance;
                 }
             }
+        }
+
+        public bool FindUser(string username, string password) {
+           return users.Exists(user => user.Username == username && user.Password == password);
         }
     }
 }
