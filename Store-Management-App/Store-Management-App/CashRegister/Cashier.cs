@@ -63,5 +63,13 @@ namespace Store_Management_App.CashRegister
         {
             return cashRegisterCard.GetTotalCache() + cashRegisterPaper.GetTotalCache() + cashRegisterCoin.GetTotalCache();
         }
+        void RemoveChangeFromCashRegister(double  changeExpected)
+        {
+            double paperMoney = Math.Truncate(changeExpected);
+            double coin = changeExpected - Math.Truncate(changeExpected);
+            CashOut(coin, EMoneyType.Card);
+            CashOut(paperMoney, EMoneyType.Paper);
+            
+        }
     }
 }
