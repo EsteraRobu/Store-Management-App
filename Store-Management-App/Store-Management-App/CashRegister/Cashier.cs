@@ -63,14 +63,14 @@ namespace Store_Management_App.CashRegister
         {
             return cashRegisterCard.GetTotalCache() + cashRegisterPaper.GetTotalCache() + cashRegisterCoin.GetTotalCache();
         }
-        Boolean checkIfPaperCashExist(double x) {
+        public Boolean checkIfPaperCashExist(double x) {
             return cashRegisterPaper.GetTotalCache() > x ? true : false;
         }
-        Boolean checkIfCoinCashExist(double x)
+        public Boolean checkIfCoinCashExist(double x)
         {
             return cashRegisterCoin.GetTotalCache() > x ? true : false;
         }
-        void RemoveChangeFromCashRegister(double  changeExpected)
+        public void RemoveChangeFromCashRegister(double  changeExpected)
         {
             double paperMoney = Math.Truncate(changeExpected);
             if (checkIfPaperCashExist(paperMoney)) {

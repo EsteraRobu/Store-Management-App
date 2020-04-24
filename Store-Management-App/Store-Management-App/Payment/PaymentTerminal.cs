@@ -11,8 +11,8 @@ namespace Store_Management_App.Payment {
         private Payment payment;
         public event EventHandler<Payment> PaymentEvent;
 
-        public void Pay(Cashier cashier) {
-            Console.WriteLine($"Your change is {payment.Pay(cashier)}");
+        public void Pay() {
+            Console.WriteLine($"Your change is {payment.Pay()}");
             PaymentEvent?.Invoke(this, Payment);
         }
 

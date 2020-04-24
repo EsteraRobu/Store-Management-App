@@ -47,21 +47,13 @@ namespace Store_Management_App.Payment {
             }
         }
 
-        public void UserPayment(SafeAccountProxy account, Cashier cashier) {
-            PaymentTerminal paymentTerminal = new PaymentTerminal(this);
-            account.Pay(paymentTerminal);
-            paymentTerminal.Pay(cashier);
-
-        }
-
         public bool VerifyPayment() {
             return ValueReceived <= ValueToPay;
         }
 
-        public double Pay(Cashier cashier) {
+        public double Pay() {
             if (ValueReceived >= ValueToPay) {
                 var change = GetChange();
-                cashier.RemoveChangeFromCashRegister(change);
                 return change;
             }
             return 0;

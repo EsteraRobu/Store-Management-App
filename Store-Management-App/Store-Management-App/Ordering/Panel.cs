@@ -106,7 +106,7 @@ namespace Store_Management_App.Ordering {
                 payment.ValueReceivedMethod(cashier.GetTotalCache());
             }
 
-            payment.UserPayment(account, cashier);
+            account.Pay(payment);
 
             Console.WriteLine("You still want to buy ?");
             String decision;

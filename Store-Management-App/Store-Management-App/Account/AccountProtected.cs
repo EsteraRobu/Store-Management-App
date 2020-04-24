@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Store_Management_App.CashRegister;
 using Store_Management_App.Factory;
 using Store_Management_App.Model;
 using Store_Management_App.Payment;
@@ -30,9 +31,12 @@ namespace Store_Management_App.Account {
             Products.Add(product);
         }
 
-        public void Pay(PaymentTerminal paymentTerminal) {
+        public void Pay(Payment.Payment payment) {
             Products.Clear();
+
+            PaymentTerminal paymentTerminal = new PaymentTerminal(payment);
             PayNotify(paymentTerminal);
+            paymentTerminal.Pay();
         }
 
         public void PayNotify(PaymentTerminal paymentTerminal) {
