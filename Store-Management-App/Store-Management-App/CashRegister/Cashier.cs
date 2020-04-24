@@ -63,12 +63,111 @@ namespace Store_Management_App.CashRegister
         {
             return cashRegisterCard.GetTotalCache() + cashRegisterPaper.GetTotalCache() + cashRegisterCoin.GetTotalCache();
         }
-        public void RemoveChangeFromCashRegister(double changeExpected)
+        Boolean checkIfPaperCashExist(double x) {
+            return cashRegisterPaper.GetTotalCache() > x ? true : false;
+        }
+        Boolean checkIfCoinCashExist(double x)
+        {
+            return cashRegisterCoin.GetTotalCache() > x ? true : false;
+        }
+        void RemoveChangeFromCashRegister(double  changeExpected)
         {
             double paperMoney = Math.Truncate(changeExpected);
+            if (checkIfPaperCashExist(paperMoney)) {
+                while (paperMoney != 0)
+                {
+                    if (paperMoney < 5)
+                    {
+                        while (paperMoney != 0)
+                        {
+                            CashOut(1, EMoneyType.Paper);
+                            paperMoney--;
+                        }
+                    }
+                    if (paperMoney >= 5 && paperMoney < 10)
+                    {
+                        CashOut(5, EMoneyType.Paper);
+                        paperMoney -= 5;
+                    }
+                    if (paperMoney == 10)
+                    {
+                        CashOut(10, EMoneyType.Paper);
+                        paperMoney -= 10;
+                    }
+
+                    if (paperMoney < 50)
+                    {
+                        while (paperMoney > 10)
+                            CashOut(10, EMoneyType.Paper);
+                        paperMoney -= 10;
+                    }
+                    if (paperMoney >= 50 && paperMoney < 100)
+                    {
+                        CashOut(50, EMoneyType.Paper);
+                        paperMoney -= 50;
+                    }
+                    if (paperMoney == 100)
+                    {
+                        CashOut(100, EMoneyType.Paper);
+                        paperMoney -= 100;
+                    }
+                    if (paperMoney < 100)
+                    {
+                        while (paperMoney > 100)
+                            CashOut(50, EMoneyType.Paper);
+                        paperMoney -= 50;
+                    }
+                    if (paperMoney >= 100 && paperMoney < 200)
+                    {
+                        CashOut(100, EMoneyType.Paper);
+                        paperMoney -= 100;
+                    }
+                    if (paperMoney == 200)
+                    {
+                        CashOut(200, EMoneyType.Paper);
+                        paperMoney -= 200;
+                    }
+                }
+
+               
+
+            }
             double coin = changeExpected - Math.Truncate(changeExpected);
-            CashOut(coin, EMoneyType.Card);
-            CashOut(paperMoney, EMoneyType.Paper);
+            if (checkIfCoinCashExist(coin))
+            {
+                while (coin != 0)
+                {
+                    if (coin < 0.05)
+                    {
+                        while (paperMoney != 0)
+                        {
+                            CashOut(0.01, EMoneyType.Coin);
+                            paperMoney -= 0.01;
+                        }
+                    }
+                    if(coin>=0.05 && coin < 0.1)
+                    {
+                        CashOut(0.05, EMoneyType.Coin);
+                        coin -= 0.05;
+                    }
+                    if (coin >= 0.1 && coin < 0.50)
+                    {
+                        while (coin > 0.1)
+                        {
+                            CashOut(0.1, EMoneyType.Coin);
+                            coin -= 0.1;
+                        }
+                    }
+                    if (coin == 0.50)
+                    {
+                        CashOut(0.5, EMoneyType.Coin);
+                        coin -= 0.5;
+                    }
+
+                }
+            }
+            
+
             
         }
     }
