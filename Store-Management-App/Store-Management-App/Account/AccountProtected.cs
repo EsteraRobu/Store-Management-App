@@ -55,7 +55,7 @@ namespace Store_Management_App.Account {
             double sum = 0;
             foreach (var product in Products)
             {
-                sum += (product.Quantity * product.Price);
+                sum += (product.Quantity * product.Price) + product.Provider.TransportationPrice;
             }
 
             Console.WriteLine("Total price: " + sum);

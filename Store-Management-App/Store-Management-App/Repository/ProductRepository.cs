@@ -33,7 +33,8 @@ namespace Store_Management_App.Repository {
                 new DesktopApplicationsFactory().GetProduct("Microsoft Office", 400, 30, new SoftwareDecorator(simpleProvider)),
                 new DesktopApplicationsFactory().GetProduct("Autodesk, AutoCAD", 2800, 10, new SoftwareDecorator(simpleProvider)),
                 new OperatingSystemFactory().GetProduct("Microsoft Windows 10", 800, 20, new SoftwareDecorator(simpleProvider)),
-                new OperatingSystemFactory().GetProduct("Microsoft GGK Windows7 Pro", 1000, 10, new SoftwareDecorator(simpleProvider)),
+                new OperatingSystemFactory().GetProduct("Microsoft GGK Windows7 Pro", 1000, 10, new SimpleProvider("PC Garage")),
+
             };
         }
 

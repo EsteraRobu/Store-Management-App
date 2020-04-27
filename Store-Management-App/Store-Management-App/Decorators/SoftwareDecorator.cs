@@ -14,7 +14,7 @@ namespace Store_Management_App.Decorators
             SetTransportationPrice();
         }
 
-        public override void SetTransportationPrice()
+        public override sealed void SetTransportationPrice()
         {
             decoratedProvider.TransportationPrice += 0.5;
         }
