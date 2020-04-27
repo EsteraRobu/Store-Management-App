@@ -47,5 +47,11 @@ namespace Store_Management_App.Account
                 return RealSubject.TotalValueToPay();
             return 0;
         }
+
+        public void PrintPurchasedProducts()
+        {
+            if (RealSubject is AccountProtected)
+                RealSubject.GetProducts().ForEach(product => Console.WriteLine(product.ToString()));
+        }
     }
 }

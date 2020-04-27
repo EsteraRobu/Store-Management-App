@@ -14,5 +14,6 @@ namespace Store_Management_App.Decorators
 
         void SetTransportationPrice();
         void Assemble(string name);
+        string ToString();
     }
 }

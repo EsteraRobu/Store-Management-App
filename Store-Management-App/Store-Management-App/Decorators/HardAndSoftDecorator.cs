@@ -8,15 +8,17 @@ namespace Store_Management_App.Decorators
 {
     class HardAndSoftDecorator : ProviderDecorator
     {
-        public HardAndSoftDecorator(IProvider decoratedProvider) : base(decoratedProvider)
+        public HardAndSoftDecorator(IProvider provider) : base(provider)
         {
-            decoratedProvider.ProviderType = ETypeProvider.HARD_AND_SOFT;
+            provider.ProviderType = ETypeProvider.HARD_AND_SOFT;
+            ProviderType = ETypeProvider.HARD_AND_SOFT;
             SetTransportationPrice();
         }
 
-        public override void SetTransportationPrice()
+        public override sealed void SetTransportationPrice()
         {
-            decoratedProvider.TransportationPrice += 40.5;
+            decoratedProvider.TransportationPrice = 15;
+            TransportationPrice = 15;
         }
     }
 }

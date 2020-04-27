@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Store_Management_App.CashRegister;
+using Store_Management_App.Decorators;
 using Store_Management_App.Factory;
-using Store_Management_App.Model;
 using Store_Management_App.Payment;
 using Store_Management_App.Repository;
 
-namespace Store_Management_App.Account {
+namespace Store_Management_App.Account
+{
     public class AccountProtected : IAccount {
+
+        public Dictionary<ETypeProvider, double> providers = new Dictionary<ETypeProvider, double>();
         public List<Product> Products { get; set; }
 
         public AccountProtected() {
@@ -19,19 +18,28 @@ namespace Store_Management_App.Account {
 
         public void Buy(string name, int quantity) {
             Product product = ProductRepository.Instance.GetProduct(name);
-            if (product == null) throw new ArgumentNullException("The product doesn`t exist");
-
-            if (product.Quantity >= quantity)
-            {
-                ProductRepository.Instance.UpdateProductQuantity(name, quantity);
-            }
+            if (product == null) Console.WriteLine("The product doesn`t exist");
             else
             {
-                Console.Error.Write($"Your quantity is bigger, we just have {product.Quantity} piece of {product.Name} \n");
-            }
+                if (product.Quantity >= quantity)
+                {
+                    ProductRepository.Instance.UpdateProductQuantity(name, quantity);
+                }
+                else
+                {
+                    Console.Error.Write($"Your quantity is bigger, we just have {product.Quantity} piece of {product.Name} \n");
+                }
 
-            product.Quantity = quantity;
-            Products.Add(product);
+                product.Quantity = quantity;
+                Products.Add(product);
+
+                IProvider provider = product.Provider;
+
+                if (!providers.ContainsKey(provider.ProviderType))
+                {
+                    providers.Add(provider.ProviderType, provider.TransportationPrice);
+                }
+            }
         }
 
         public void Pay(Payment.Payment payment, List<double> payedMoney, List<double> coinMoney) {
@@ -52,15 +60,23 @@ namespace Store_Management_App.Account {
         }
 
         public double TotalValueToPay() {
-            double sum = 0;
+            double productsSum = 0, transportationSum = 0;
             foreach (var product in Products)
             {
-                sum += (product.Quantity * product.Price);
+                productsSum += (product.Quantity * product.Price);
             }
 
-            Console.WriteLine("Total price: " + sum);
+            foreach (var providerTransportation in providers)
+            {
+                transportationSum += providerTransportation.Value;
+            }
 
-            return sum;
+            Console.WriteLine("\nTotal price: " + productsSum);
+            Console.WriteLine("Transportation price: " + transportationSum);
+
+            return productsSum + transportationSum;
         }
+
+        public List<Product> GetProducts() => Products;
     }
 }

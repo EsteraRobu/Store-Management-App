@@ -7,17 +7,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Store_Management_App.Ordering {
-    class Panel {
+namespace Store_Management_App.Ordering
+{
+    class Panel
+    {
 
         private Payment.Payment payment;
         private SafeAccountProxy account;
 
-        public Panel() {
+        public Panel()
+        {
             payment = new Payment.Payment();
             account = new SafeAccountProxy();
 
-            while(true)
+            while (true)
             {
                 Console.Write("Username:");
                 var username = Console.ReadLine();
@@ -35,7 +38,7 @@ namespace Store_Management_App.Ordering {
                     Console.WriteLine("Wrong password or username! Please try again.");
                 }
             }
-            
+
         }
 
         public void VisualizeProducts()
@@ -69,7 +72,7 @@ namespace Store_Management_App.Ordering {
             int quantity;
 
             name = Console.ReadLine();
-            if (name == null) throw new ArgumentOutOfRangeException("Id Product must be bigger than 0.", nameof(name));
+            if (name == null) throw new ArgumentNullException("Product must not be null.", nameof(name));
 
             Console.WriteLine("Please enter the quantity you want: ");
             quantity = Convert.ToInt32(Console.ReadLine());
@@ -80,8 +83,10 @@ namespace Store_Management_App.Ordering {
             Console.WriteLine("You want something else?(yes/no)");
             String decision;
             decision = Console.ReadLine();
-            switch (decision) {
+            switch (decision)
+            {
                 case "no":
+                    PrintPurchasedProducts();
                     Payment();
                     break;
                 case "yes":
@@ -93,7 +98,14 @@ namespace Store_Management_App.Ordering {
             }
         }
 
-        public void Payment() {
+        public void PrintPurchasedProducts()
+        {
+            Console.WriteLine("\nYour products: ");
+            account.PrintPurchasedProducts();
+        }
+
+        public void Payment()
+        {
             Cashier cashier = Cashier.Instance;
             payment.ValueReceived = 0;
             payment.ValueToPay = account.TotalValueToPay();
@@ -101,7 +113,8 @@ namespace Store_Management_App.Ordering {
             List<double> coinMoney = new List<double>();
             double payedValue = 0;
 
-            while (payment.VerifyPayment()) {
+            while (payment.VerifyPayment())
+            {
                 Console.WriteLine("You have to pay: " + (payment.ValueToPay - payedValue));
                 Console.WriteLine("\nPlease enter the option for payment you want: \n" +
                               "1. Paper\n" +
@@ -110,26 +123,51 @@ namespace Store_Management_App.Ordering {
                 int userInput;
                 userInput = Convert.ToInt32(Console.ReadLine());
 
-                switch (userInput) {
-                    case 1: {
+                switch (userInput)
+                {
+                    case 1:
+                        {
                             Console.WriteLine("Please enter the banknote(1, 5, 10, 50, 100, 200, 500): ");
-                            double paper = Convert.ToInt32(Console.ReadLine());
-                            paperMoney.Add(paper);
-                            payedValue += paper;
+                            double paper = Convert.ToDouble(Console.ReadLine());
+                            if (PaperMoney.ExistMoneyForValue(paper))
+                            {
+                                paperMoney.Add(paper);
+                                payedValue += paper;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid banknote");
+                            }
                         }
                         break;
-                    case 2: {
-                            Console.WriteLine("Please enter the coins(0.01, 0.05, 0.1, 0.5: ");
-                            double coin = Convert.ToInt32(Console.ReadLine());
-                            coinMoney.Add(coin);
-                            payedValue += coin;
+                    case 2:
+                        {
+                            Console.WriteLine("Please enter the coins(0.01, 0.05, 0.1, 0.5): ");
+                            double coin = Convert.ToDouble(Console.ReadLine());
+                            if (CoinMoney.ExistMoneyForValue(coin))
+                            {
+                                coinMoney.Add(coin);
+                                payedValue += coin;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid coin");
+                            }
                         }
                         break;
 
-                    case 3: {
+                    case 3:
+                        {
                             Console.WriteLine("Please enter amount from card: ");
-                            double card = Convert.ToInt32(Console.ReadLine());
-                            payedValue += card;
+                            double card = Convert.ToDouble(Console.ReadLine());
+                            if (card <= payment.ValueToPay)
+                            {
+                                payedValue += card;
+                            }
+                            else
+                            {
+                                Console.WriteLine("You have to enter an amount smaller or equal with " + payment.ValueToPay);
+                            }
                         }
                         break;
                     default:
@@ -143,7 +181,8 @@ namespace Store_Management_App.Ordering {
             Console.WriteLine("You still want to buy?(yes/no)");
             String decision;
             decision = Console.ReadLine();
-            switch (decision) {
+            switch (decision)
+            {
                 case "no":
                     Console.WriteLine("Thank you for your order. Have a nice day!");
                     break;

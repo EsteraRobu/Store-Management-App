@@ -7,15 +7,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Store_Management_App.Repository {
-    public class ProductRepository {
+namespace Store_Management_App.Repository
+{
+    public class ProductRepository
+    {
         private List<Product> products;
 
         private static ProductRepository instance = null;
         private static readonly object padlock = new object();
 
-        private ProductRepository() {
-            IProvider simpleProvider = new SimpleProvider("PC Garage");
+        private ProductRepository()
+        {
+            IProvider simpleProvider = new SimpleProvider();
+            simpleProvider.Assemble("PC Garage");
 
             products = new List<Product>{
                 new MonitorsFactory().GetProduct("Dell", 3000, 10, new HardwareDecorator(simpleProvider)),
@@ -37,10 +41,14 @@ namespace Store_Management_App.Repository {
             };
         }
 
-        public static ProductRepository Instance {
-            get {
-                lock (padlock) {
-                    if (instance == null) {
+        public static ProductRepository Instance
+        {
+            get
+            {
+                lock (padlock)
+                {
+                    if (instance == null)
+                    {
                         instance = new ProductRepository();
                     }
                     return instance;
@@ -48,7 +56,8 @@ namespace Store_Management_App.Repository {
             }
         }
 
-        public void AddProduct(Product product) {
+        public void AddProduct(Product product)
+        {
             products.Add(product);
         }
 
@@ -58,27 +67,23 @@ namespace Store_Management_App.Repository {
 
         public Product GetProduct(string name)
         {
-            try
-            {
-                return products.First(product => product.Name.ToUpper().Equals(name.ToUpper()));
-            }
-            catch (ArgumentNullException e)
-            {
-                Console.WriteLine("The product doesn`t exist. Please insert a correct name product.");
-                return null;
-            }
+            return products.FirstOrDefault(product => product.Name.ToUpper().Equals(name.ToUpper()));
         }
 
-        public void UpdateProductPrice(string name, double price) {
-            var product = products.First(prod => prod.Name.ToUpper() == name.ToUpper());
-            if (price > 0) {
+        public void UpdateProductPrice(string name, double price)
+        {
+            var product = products.FirstOrDefault(prod => prod.Name.ToUpper() == name.ToUpper());
+            if (price > 0)
+            {
                 product.Price = price;
             }
         }
 
-        public void UpdateProductQuantity(string name, int quantity) {
-            var product = products.First(prod => prod.Name.ToUpper() == name.ToUpper());
-            if (quantity > 0) {
+        public void UpdateProductQuantity(string name, int quantity)
+        {
+            var product = products.FirstOrDefault(prod => prod.Name.ToUpper() == name.ToUpper());
+            if (quantity > 0)
+            {
                 product.Quantity -= quantity;
             }
         }

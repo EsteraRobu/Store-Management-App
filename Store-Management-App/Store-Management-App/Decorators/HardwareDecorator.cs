@@ -8,15 +8,17 @@ namespace Store_Management_App.Decorators
 {
     class HardwareDecorator : ProviderDecorator
     {
-        public HardwareDecorator(IProvider decoratedProvider) : base(decoratedProvider)
+        public HardwareDecorator(IProvider provider) : base(provider)
         {
-            decoratedProvider.ProviderType = ETypeProvider.HARDWARE;
+            provider.ProviderType = ETypeProvider.HARDWARE;
+            ProviderType = ETypeProvider.HARDWARE;
             SetTransportationPrice();
         }
 
-        public override void SetTransportationPrice()
+        public override sealed void SetTransportationPrice()
         {
-            decoratedProvider.TransportationPrice +=40;
+            decoratedProvider.TransportationPrice = 20;
+            TransportationPrice = 20;
         }
     }
 }

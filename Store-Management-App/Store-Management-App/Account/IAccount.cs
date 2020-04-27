@@ -14,5 +14,6 @@ namespace Store_Management_App.Account
         void Buy(string name, int quantity);
         void Pay(Payment.Payment paymentTerminal, List<double> payedMoney, List<double> coinMoney);
         double TotalValueToPay();
+        List<Product> GetProducts();
     }
 }

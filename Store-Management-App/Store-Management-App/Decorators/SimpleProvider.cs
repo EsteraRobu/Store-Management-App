@@ -11,9 +11,8 @@ namespace Store_Management_App.Decorators
         public string Name { get; set; }
         public double TransportationPrice { get; set; }
         public ETypeProvider ProviderType { get; set; }
-        public SimpleProvider(string name)
+        public SimpleProvider()
         {
-            Name = name;
             ProviderType = ETypeProvider.SIMPLE;
             SetTransportationPrice();
         }
@@ -25,6 +24,11 @@ namespace Store_Management_App.Decorators
         public void SetTransportationPrice()
         {
             TransportationPrice = 10;
+        }
+
+        public override string ToString()
+        {
+            return $"{TransportationPrice}";
         }
     }
 }

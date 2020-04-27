@@ -24,6 +24,10 @@ namespace Store_Management_App.Decorators
         }
 
         public abstract void SetTransportationPrice();
-        
+
+        public override string ToString()
+        {
+            return $"{decoratedProvider.TransportationPrice}";
+        }
     }
 }
